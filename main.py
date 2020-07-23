@@ -1,17 +1,20 @@
-# bot.py
+# main.py
 import os, discord, random, re, smtplib, ssl
 from discord.ext import commands
 from discord.utils import get
 from dotenv import load_dotenv
 
+# .env variables
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD_ID')
 DISCORD_WELCOME_CHANNEL = os.getenv('DISCORD_WELCOME_CHANNEL')
-PASSWORD = os.getenv('GMAIL_PASSWORD')
+PASSWORD = os.getenv('EMAIL_PASSWORD')
 EMAIL = os.getenv('EMAIL')
 ALLOWED_EMAILS = os.getenv('ALLOWED_EMAILS').split(":")
 DISCORD_ROLE = os.getenv('DISCORD_ROLE')
+DISCORD_NAME = os.getenv('DISCORD_NAME')
+EMAIL_FORMAT = os.getenv('EMAIL_FORMAT')
 
 client = discord.Client()
 
@@ -37,7 +40,7 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     await member.create_dm()
-    await member.dm_channel.send(f'Hi {member.name}, welcome to the Han House Discord server! To verify your identity, please enter your @uchicago.edu email address')
+    await member.dm_channel.send(f'Hi {member.name}, welcome to the {DISCORD_NAME} Discord server! To verify your identity, please enter your {EMAIL_FORMAT} email address')
 
 
 
@@ -68,11 +71,11 @@ async def on_message(message):
             f.close()
 
             if user_code == re.search(r'[\w\.-]+@[\w\.-]+\.\w+', ""):
-                response = "Please enter your @uchicago.edu email address first."
+                response = f'Please enter your {EMAIL_FORMAT} email address first.'
                 await message.channel.send(response)
 
             elif user_email == re.search(r'[\w\.-]+@[\w\.-]+\.\w+', ""):
-                response = "Please enter your @uchicago.edu email address first."
+                response = f'Please enter your {EMAIL_FORMAT} email address first.'
                 await message.channel.send(response)
 
             elif message.content == user_code:
@@ -83,7 +86,7 @@ async def on_message(message):
                 await member.add_roles(role)
 
                 print(f'✅ The user {user_email} was added to the Discord')
-                response = "Welcome to Han House! You can now use the Discord Server."
+                response = f'Welcome to {DISCORD_NAME}! You can now use the Discord Server.'
                 await message.channel.send(response)
 
             else:
@@ -93,22 +96,20 @@ async def on_message(message):
 
         # File does not exist yet
         except FileNotFoundError:
-            response = "Please enter your @uchicago.edu email address first."
+            response = f'Please enter your {EMAIL_FORMAT} email address first.'
             await message.channel.send(response)
-
-
 
 
     # No email was given
     elif receiver_email == re.search(r'[\w\.-]+@[\w\.-]+\.\w+', ""):
-        response = "Please enter a valid email address. Contact gaubil@uchicago.edu if you are experiencing problems."
+        response = "Please enter a valid email address."
         await message.channel.send(response)
 
 
     # Email is in the list of valid emails
     elif receiver_email.group(0) in ALLOWED_EMAILS:
         port = 465
-        header = 'To:' + receiver_email.group(0) + '\n' + 'From: ' + EMAIL + '\n' + 'Subject:Han House Discord Authentication Code\n'
+        header = 'To:' + receiver_email.group(0) + '\n' + 'From: ' + EMAIL + '\n' + f'Subject:{DISCORD_NAME} Discord Authentication Code\n'
         generated_hash = abs(hash(receiver_email.group(0))) % (10 ** 8)
 
         email_message = f"""
@@ -132,7 +133,7 @@ async def on_message(message):
 
     # Email is not in the list of valid emails
     else:
-        response = "Sorry, that email is not in the list of allowed emails. Please contact gaubil@uchicago.edu if you are part of Han House."
+        response = 'Sorry, that email is not in the list of allowed emails. Please contact the channel owner.'
         await message.channel.send(response)
 
 
