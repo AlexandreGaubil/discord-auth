@@ -15,6 +15,8 @@ ALLOWED_EMAILS = os.getenv('ALLOWED_EMAILS').split(":")
 DISCORD_ROLE = os.getenv('DISCORD_ROLE')
 DISCORD_NAME = os.getenv('DISCORD_NAME')
 EMAIL_FORMAT = os.getenv('EMAIL_FORMAT')
+EMAIL_SMTP_SERVER = os.getenv('EMAIL_SMTP_SERVER')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
 
 client = discord.Client()
 
@@ -108,7 +110,7 @@ async def on_message(message):
 
     # Email is in the list of valid emails
     elif receiver_email.group(0) in ALLOWED_EMAILS:
-        port = 465
+        #port = 465
         header = 'To:' + receiver_email.group(0) + '\n' + 'From: ' + EMAIL + '\n' + f'Subject:{DISCORD_NAME} Discord Authentication Code\n'
         generated_hash = abs(hash(receiver_email.group(0))) % (10 ** 8)
 
@@ -121,7 +123,7 @@ async def on_message(message):
         f.close()
 
         context = ssl.create_default_context()
-        with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+        with smtplib.SMTP_SSL(EMAIL_SMTP_SERVER, EMAIL_PORT, context=context) as server:
             server.login(EMAIL, PASSWORD)
             server.sendmail(EMAIL, receiver_email.group(0), email_message)
             server.quit()
