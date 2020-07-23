@@ -11,6 +11,7 @@ DISCORD_WELCOME_CHANNEL = os.getenv('DISCORD_WELCOME_CHANNEL')
 PASSWORD = os.getenv('GMAIL_PASSWORD')
 EMAIL = os.getenv('EMAIL')
 ALLOWED_EMAILS = os.getenv('ALLOWED_EMAILS').split(":")
+DISCORD_ROLE = os.getenv('DISCORD_ROLE')
 
 client = discord.Client()
 
@@ -39,9 +40,7 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     await member.create_dm()
-    await member.dm_channel.send(
-        f'Hi {member.name}, welcome to the Han House Discord server! To verify your identity, please enter your @uchicago.edu email address'
-    )
+    await member.dm_channel.send(f'Hi {member.name}, welcome to the Han House Discord server! To verify your identity, please enter your @uchicago.edu email address')
 
 
 
@@ -80,12 +79,10 @@ async def on_message(message):
                 await message.channel.send(response)
 
             elif message.content == user_code:
-                member = message.author
+                new_guild = client.get_guild(int(GUILD))
 
-                new_guild = client.get_guild(GUILD)
-                #new_guild = client.guilds.get_guild(GUILD)
-                #role = new_guild.roles.find(role => role.name === CONFIG.ROLE_NAME)
-                role = get(new_guild.roles, name="Member")
+                member = new_guild.get_member(message.author.id)
+                role = new_guild.get_role(int(DISCORD_ROLE))
                 await member.add_roles(role)
 
                 print(f'✅ The user {user_email} was added to the Discord')
