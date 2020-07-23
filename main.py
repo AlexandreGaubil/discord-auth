@@ -64,20 +64,45 @@ async def on_message(message):
 
     # The message received is a code
     if message.content.isnumeric():
-        f = open(f'.codes/{message.channel.id}', "r")
+        try:
+            f = open(f'.codes/{message.channel.id}', "r")
+            data = f.readlines()
+            user_email = data[1].strip()
+            user_code = data[0].strip()
+            f.close()
 
-        user_email = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', f.read())
-        user_code = re.search(r'^[0-9]{8}$', f.read())
+            if user_code == re.search(r'[\w\.-]+@[\w\.-]+\.\w+', ""):
+                response = "Code Please enter your @uchicago.edu email address first"
+                await message.channel.send(response)
 
-        if abs(hash(user_email)) % (10 ** 8) == user_code:
-            member = message.author
+            elif user_email == re.search(r'[\w\.-]+@[\w\.-]+\.\w+', ""):
+                response = "Email Please enter your @uchicago.edu email address first"
+                await message.channel.send(response)
 
-            role = get(member.guild.roles, name="Member")
-            await member.add_roles(role)
+            elif message.content == user_code:
+                member = message.author
 
-            response = "Welcome to Han House! You can now use the Discord Server."
+                new_guild = client.get_guild(GUILD)
+                #new_guild = client.guilds.get_guild(GUILD)
+                #role = new_guild.roles.find(role => role.name === CONFIG.ROLE_NAME)
+                role = get(new_guild.roles, name="Member")
+                await member.add_roles(role)
+
+                print(f'✅ The user {user_email} was added to the Discord')
+                response = "Welcome to Han House! You can now use the Discord Server."
+                await message.channel.send(response)
+
+            else:
+                print(f'Invalid code given for {user_email}')
+                response = "The code given is invalid. Please try again."
+                await message.channel.send(response)
+
+        # File does not exist yet
+        except FileNotFoundError:
+            response = "Please enter your @uchicago.edu email address first"
             await message.channel.send(response)
-            print("Numerical found")
+
+
 
 
     # No email was given
@@ -89,25 +114,25 @@ async def on_message(message):
     # Email is in the list of valid emails
     elif receiver_email.group(0) in ALLOWED_EMAILS:
         port = 465
-        header = 'To:' + receiver_email + '\n' + 'From: ' + EMAIL + '\n' + 'Subject:Han House Discord Authentication Code\n'
-        generated_hash = abs(hash(receiver_email)) % (10 ** 8)
+        header = 'To:' + receiver_email.group(0) + '\n' + 'From: ' + EMAIL + '\n' + 'Subject:Han House Discord Authentication Code\n'
+        generated_hash = abs(hash(receiver_email.group(0))) % (10 ** 8)
 
         email_message = f"""
         Your authentication code is: {generated_hash}."""
         email_message = header + email_message
 
-        f = open(f'.codes/{message.channel.id}', "w")
-        f.write(generated_hash)
+        f = open(f'.codes/{message.channel.id}', "w+")
+        f.write(str(generated_hash) + "\n" + receiver_email.group(0))
         f.close()
 
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
             server.login(EMAIL, PASSWORD)
-            server.sendmail(EMAIL, receiver_email, email_message)
+            server.sendmail(EMAIL, receiver_email.group(0), email_message)
             server.quit()
-            print(f'Email sent to {receiver_email}. Generated hash is {generated_hash}.')
+            print(f'Email sent to {receiver_email.group(0)}. Generated hash is {generated_hash}.')
 
-        response = f'An email was sent to {receiver_email} with an authentication code. Please enter the code here.'
+        response = f'An email was sent to {receiver_email.group(0)} with an authentication code. Please enter the code here.'
         await message.channel.send(response)
 
 
