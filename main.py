@@ -23,16 +23,13 @@ async def on_ready():
     for guild in client.guilds:
         if guild.id == GUILD:
             break
-        elif guild.id != GUILD:
-            print(f'⚠️ WARNING: Connected to unrecognized server named {guild.name}')
+        #elif guild.id != GUILD:
+        #    print(f'⚠️ WARNING: Connected to unrecognized server named {guild.name}')
 
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-    )
+    print(f'🌐 {client.user} is connected to the following guild: {guild.name}(id: {guild.id})')
 
-    members = '\n - '.join([member.name for member in guild.members])
-    print(f'Guild Members:\n - {members}')
+    #members = '\n - '.join([member.name for member in guild.members])
+    #print(f'Guild Members:\n - {members}')
 
 
 
@@ -54,7 +51,7 @@ async def on_message(message):
 
     # Check if the message was a DM
     if message.channel.type != discord.ChannelType.private:
-        print("This message was not sent on a private chat")
+        #print("This message was not sent on a private chat")
         return
 
     # Parses the string for a list of emails
@@ -71,11 +68,11 @@ async def on_message(message):
             f.close()
 
             if user_code == re.search(r'[\w\.-]+@[\w\.-]+\.\w+', ""):
-                response = "Code Please enter your @uchicago.edu email address first"
+                response = "Please enter your @uchicago.edu email address first."
                 await message.channel.send(response)
 
             elif user_email == re.search(r'[\w\.-]+@[\w\.-]+\.\w+', ""):
-                response = "Email Please enter your @uchicago.edu email address first"
+                response = "Please enter your @uchicago.edu email address first."
                 await message.channel.send(response)
 
             elif message.content == user_code:
@@ -96,7 +93,7 @@ async def on_message(message):
 
         # File does not exist yet
         except FileNotFoundError:
-            response = "Please enter your @uchicago.edu email address first"
+            response = "Please enter your @uchicago.edu email address first."
             await message.channel.send(response)
 
 
