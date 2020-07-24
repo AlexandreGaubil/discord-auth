@@ -9,8 +9,6 @@ This Discord Bot allows you to whitelist certain people (by email address) to en
 
 ## Usage
 
-To host your own copy of the bot, follow the instructions in [SETUP.md](https://github.com/AlexandreGaubil/discord-auth/blob/master/SETUP.md).
-
 This requires Python 3.7 or higher.
 
 Start by installing [discord.py](https://pypi.org/project/discord.py/) by running:
