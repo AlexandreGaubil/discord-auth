@@ -2,8 +2,6 @@
 
 This Discord Bot allows you to whitelist certain people (by email address) to ensure they are the only ones that can access your Discord Guild.
 
----
-
 ## Features
 
 * Verifies the identity of users through their provided email address using one-time codes
@@ -43,6 +41,21 @@ $ python3 main.py
 
 ## Contributing
 
-Any contributions are welcome! Please take a look at the [Issues](https://github.com/AlexandreGaubil/discord-auth/issues) or, if you have features you want to implement, make a pull request!
+Any contributions are welcome! Take a look at the [Issues](https://github.com/AlexandreGaubil/discord-auth/issues) or, if you have features you want to implement, go ahead and make a suggestion!
 
-Please try to follow standard code-writing conventions: comment your code, write tests, etc.
+Discord Auth follows the standard fork/commit/pull request process. To contribute changes:
+1. Fork and clone the repository,
+2. Commit your changes,
+3. **Test your changes**,
+4. Push them to your repository,
+5. Make a pull request against the `master` branch.
+
+##  License
+
+Copyright 2020 Alexandre Gaubil.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
