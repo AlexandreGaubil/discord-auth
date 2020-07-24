@@ -1,16 +1,27 @@
 # envvar.py
-import os
+import os, json
 from dotenv import load_dotenv
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD_ID')
-DISCORD_WELCOME_CHANNEL = os.getenv('DISCORD_WELCOME_CHANNEL')
-PASSWORD = os.getenv('EMAIL_PASSWORD')
-EMAIL = os.getenv('EMAIL')
-ALLOWED_EMAILS = os.getenv('ALLOWED_EMAILS').split(":")
-DISCORD_ROLE = os.getenv('DISCORD_ROLE')
-DISCORD_NAME = os.getenv('DISCORD_NAME')
-EMAIL_FORMAT = os.getenv('EMAIL_FORMAT')
-EMAIL_SMTP_SERVER = os.getenv('EMAIL_SMTP_SERVER')
-EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+with open('authorized_users.json') as f:
+  authorized_users_data = json.load(f)
+
+authorized_users = authorized_users_data['authorized_users']
+
+with open('setup_info.json') as f:
+    setup_info_data = json.load(f)
+
+# Discord information
+discord_bot_token = setup_info_data['discord_bot_token']
+discord_guild_id = setup_info_data['discord_guild_id']
+discord_guild_name = setup_info_data['discord_guild_name']
+discord_welcome_channel_id = setup_info_data['discord_welcome_channel_id']
+discord_role_to_assign_id = setup_info_data['discord_role_to_assign_id']
+
+# Email information
+email_password = setup_info_data['email_password']
+email_address = setup_info_data['email_address']
+email_smtp_server = setup_info_data['email_smtp_server']
+email_port = setup_info_data['email_port']
+
+# Message customization
+email_type_specifier = setup_info_data['email_type_specifier']

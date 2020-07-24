@@ -9,7 +9,7 @@ This Discord Bot allows you to whitelist certain people (by email address) to en
 
 ## Usage
 
-This requires Python 3.7 or higher.
+This requires Python 3.7 or higher. Make sure that `pip` is installed as well.
 
 Start by installing [discord.py](https://pypi.org/project/discord.py/) by running:
 
@@ -17,19 +17,25 @@ Start by installing [discord.py](https://pypi.org/project/discord.py/) by runnin
 $ pip install discord.py
 ```
 
-Duplicate the file named `.env.template` and rename it to `.env`.
+You also need to install [smtplib](https://docs.python.org/3/library/smtplib.html) by running:
 
-Create a new application in [Discord's developer portal](https://discord.com/developers/). Copy the Discord token of your bot and set it as the value of `DISCORD_TOKEN` in the `.env` file.
+```console
+$ pip install smtplib
+```
 
-Copy the ID of your Guild from Discord and set it as the value of `DISCORD_GUILD_ID` in the `.env` file. Copy the ID of the welcome channel (a channel on your server where @everyone has access) and set it as the value of `DISCORD_WELCOME_CHANNEL` in the `.env` file. Copy the ID of the Role you want assigned to the validated users and set it as `DISCORD_ROLE` in the `.env` file.
+Duplicate the file named `setup_info.json.template`, rename it to `setup_info.json`, duplicate the file named `authorized_users.json.template` and rename it to `authorized_users.json`.
+
+Create a new application in [Discord's developer portal](https://discord.com/developers/). Copy the Discord token of your bot and set it as the value of `discord_bot_token` in the `setup_info.json` file.
+
+Copy the ID of your Guild from Discord and set it as the value of `discord_guild_id` in the `setup_info.json` file. Copy the ID of the welcome channel (a channel on your server where @everyone has access) and set it as the value of `discord_welcome_channel_id` in the `setup_info.json` file. Copy the ID of the Role you want assigned to the validated users and set it as `discord_role_to_assign_id` in the `setup_info.json` file.
 
 In order to make sure that only authenticated users have access to your Discord, change the permissions of @everyone in Discord to off for all options.
 
-Set the `EMAIL`, `EMAIL_PASSWORD`, `EMAIL_SMTP_SERVER` and `EMAIL_PORT` in `.env`. The defaults are for a Gmail account. These are used to send the authentication email.
+Set the `email_address`, `email_password`, `email_smtp_server` and `email_port` in `setup_info.json`. The defaults are for a Gmail account. These are used to send the authentication email.
 
-If you want to ask the user to use a specific kind of email address (e.g., a work email or a university email), set the value of `EMAIL_FORMAT` in the `.env`. Otherwise, leave it blank.
+If you want to ask the user to use a specific kind of email address (e.g., a work email or a university email), set the value of `email_type_specifier` in the `setup_info.json`. Otherwise, leave it blank.
 
-Finally, set the value of `ALLOWED_EMAILS` to the list of emails you want the bot to authorize access to your Discord. Separate the emails by a colon (i.e., ':').
+Finally, set the value of `authorized_users` in the file `authorized_users.json` to the list of emails you want the bot to authorize access to your Discord. Separate the emails by a comma (i.e., ',').
 
 Now, open a terminal, `cd` into the directory where the project is and type:
 

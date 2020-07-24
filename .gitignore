@@ -5,6 +5,8 @@
 .codes/*.txt
 .DS_Store
 *~
+*.json
+!*.json.template
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

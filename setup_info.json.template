@@ -1,0 +1,12 @@
+{
+    "discord_bot_token": "",
+    "discord_guild_id": 0,
+    "discord_guild_name": "",
+    "discord_welcome_channel_id": 0,
+    "discord_role_to_assign_id": 0,
+    "email_password": "",
+    "email_address": "",
+    "email_smtp_server": "smtp.gmail.com",
+    "email_port": 465,
+    "email_type_specifier": ""
+}
