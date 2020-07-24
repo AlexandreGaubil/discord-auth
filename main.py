@@ -22,19 +22,14 @@ client = discord.Client()
 
 
 
-# MARK - When bot connects (use this to verify you are connected to the good server)
+# MARK - When bot connects
 @client.event
 async def on_ready():
     for guild in client.guilds:
         if guild.id == GUILD:
             break
-        #elif guild.id != GUILD:
-        #    print(f'⚠️ WARNING: Connected to unrecognized server named {guild.name}')
 
-    print(f'🌐 {client.user} is connected to the following guild: {guild.name}(id: {guild.id})')
-
-    #members = '\n - '.join([member.name for member in guild.members])
-    #print(f'Guild Members:\n - {members}')
+    print(f'🌐 {client.user} is connected to {guild.name} (id: {guild.id})')
 
 
 
@@ -140,15 +135,24 @@ async def on_message(message):
 
 
 
+# MARK - Take care of exceptions by displaying them in the terminal & saving them to a log file
+@client.event
+async def on_error(event, *args, **kwargs):
+    error_description = str(event)
+    for arg in args:
+        error_description += "\n"
+        error_description += str(arg)
+    for kwarg in kwargs:
+        error_description += "\n"
+        error_description += str(kwarg)
+
+    with open('err.log', 'a') as f:
+        if event == 'on_message':
+            error_description += "\n \n"
+            f.write(f'Unhandled message: {error_description}')
+        else:
+            raise
 
 
-# MARK - Take care of exceptions
-#@client.event
-#async def on_error(event, *args, **kwargs):
-#    with open('err.log', 'a') as f:
-#        if event == 'on_message':
-#            f.write(f'Unhandled message: {args[0]}\n')
-#        else:
-#            raise
 
 client.run(TOKEN)
