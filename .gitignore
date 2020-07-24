@@ -1,5 +1,12 @@
 *config.py
-*.yaml
 *.env
 *.vscode/
 *.log
+.codes/*.txt
+.DS_Store
+*~
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
