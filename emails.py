@@ -4,7 +4,7 @@ import gblvar
 
 def send_auth_code(receiver_email, channel_id):
     header = 'To:' + receiver_email + '\n' + 'From: ' + gblvar.email_address + '\n' + f'Subject:{gblvar.discord_guild_name} Discord Authentication Code\n'
-    generated_hash = abs(hash(receiver_email)) % (10 ** 8)
+    generated_hash = abs(hash(receiver_email)) % (10 ** int(gblvar.number_of_digits_hash))
     email_message = f"""
     Your authentication code is: {generated_hash}."""
     email_message = header + email_message

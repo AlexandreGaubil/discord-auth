@@ -8,5 +8,6 @@
     "email_address": "",
     "email_smtp_server": "smtp.gmail.com",
     "email_port": 465,
-    "email_type_specifier": ""
+    "email_type_specifier": "",
+    "number_of_digits_hash": 8
 }
