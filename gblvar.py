@@ -2,13 +2,13 @@
 import os, json
 from dotenv import load_dotenv
 
-with open('authorized_users.json') as f:
+with open('json/authorized_users.json') as f:
   authorized_users_data = json.load(f)
 
 # ----- Authorized users -----
 authorized_users = authorized_users_data['authorized_users']
 
-with open('setup_info.json') as f:
+with open('json/setup_info.json') as f:
     setup_info_data = json.load(f)
 
 # ----- Discord information -----
