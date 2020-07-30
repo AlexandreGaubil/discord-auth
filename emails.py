@@ -18,4 +18,4 @@ def send_auth_code(receiver_email, channel_id):
         server.login(gblvar.email_address, gblvar.email_password)
         server.sendmail(gblvar.email_address, receiver_email, email_message)
         server.quit()
-        print(f'📧 Email sent to {receiver_email}. Generated hash is {generated_hash}.')
+        print(f'📧 Email sent to {receiver_email}. Generated hash is {generated_hash}')

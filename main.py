@@ -64,10 +64,18 @@ async def on_message(message):
 
             elif message.content == user_code:
                 new_guild = client.get_guild(int(gblvar.discord_guild_id))
-
                 member = new_guild.get_member(message.author.id)
-                role = new_guild.get_role(int(gblvar.discord_role_to_assign_id))
-                await member.add_roles(role)
+                roles_to_add = []
+
+                print(gblvar.authorized_users)
+
+                for role_to_add in gblvar.authorized_users[user_email]:
+                    roles_to_add.append(new_guild.get_role(int(role_to_add)))
+                    role = new_guild.get_role(int(role_to_add))
+                    await member.add_roles(role, reason="Discord Auth Bot")
+                if roles_to_add == []:
+                    role = new_guild.get_role(int(gblvar.discord_role_to_assign_id))
+                    await member.add_roles(role, reason="Discord Auth Bot")
 
                 print(f'✅ The user {user_email} was added to the Discord')
                 response = f'Welcome to {gblvar.discord_guild_name}! You can now use the Discord Server.'
@@ -91,7 +99,7 @@ async def on_message(message):
 
 
     # Email is in the list of valid emails
-    elif receiver_email.group(0) in gblvar.authorized_users:
+    elif receiver_email.group(0) in list(gblvar.authorized_users.keys()):
         emails.send_auth_code(receiver_email.group(0), message.channel.id)
         response = f'An email was sent to {receiver_email.group(0)} with an authentication code. Please enter the code here.'
         await message.channel.send(response)
@@ -105,22 +113,22 @@ async def on_message(message):
 
 
 # MARK - Take care of exceptions by displaying them in the terminal & saving them to a log file
-@client.event
-async def on_error(event, *args, **kwargs):
-    error_description = str(event)
-    for arg in args:
-        error_description += "\n"
-        error_description += str(arg)
-    for kwarg in kwargs:
-        error_description += "\n"
-        error_description += str(kwarg)
-
-    with open('err.log', 'a') as f:
-        if event == 'on_message':
-            error_description += "\n \n"
-            f.write(f'Unhandled message: {error_description}')
-        else:
-            raise
+#@client.event
+#async def on_error(event, *args, **kwargs):
+#    error_description = str(event)
+#    for arg in args:
+#        error_description += "\n"
+#        error_description += str(arg)
+#    for kwarg in kwargs:
+#        error_description += "\n"
+#        error_description += str(kwarg)
+#
+#    with open('err.log', 'a') as f:
+#        if event == 'on_message':
+#            error_description += "\n \n"
+#            f.write(f'Unhandled message: {error_description}')
+#        else:
+#            raise
 
 
 

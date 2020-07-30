@@ -35,7 +35,7 @@ Set the `email_address`, `email_password`, `email_smtp_server` and `email_port` 
 
 If you want to ask the user to use a specific kind of email address (e.g., a work email or a university email), set the value of `email_type_specifier` in the `setup_info.json`. Otherwise, leave it blank.
 
-Finally, set the value of `authorized_users` in the file `authorized_users.json` to the list of emails you want the bot to authorize access to your Discord. Separate the emails by a comma (i.e., ',').
+Finally, set the value of `authorized_users` in the file `authorized_users.json` to the list of emails you want the bot to authorize access to your Discord. Separate the emails by a comma (i.e., `,`). Add, after each email, `: []`.  You can set a list of additional roles to give to this particular user instead of the role `discord_role_to_assign_id`.
 
 Now, open a terminal, `cd` into the directory where the project is and type:
 

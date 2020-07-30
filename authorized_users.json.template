@@ -1,6 +1,6 @@
 {
-    "authorized_users": [
-        "example1@email.com",
-        "example2@gmail.com"
-    ]
+    "authorized_users": {
+        "example1@email.com": [role_1_id, role_2_id],
+        "example2@gmail.com": []
+    }
 }
