@@ -6,6 +6,7 @@
 .DS_Store
 *~
 *.json
+!authorized_users.json
 !*.json.template
 
 # Byte-compiled / optimized / DLL files
