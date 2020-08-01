@@ -25,6 +25,7 @@ toml = "==0.10.1"
 websockets = "==8.1"
 wrapt = "==1.12.1"
 yarl = "==1.4.2"
+pbr = "==5.4.5"
 
 [requires]
 python_version = "3.6.2"

@@ -2,6 +2,7 @@
 import os, discord, random, re
 import emails
 import gblvar
+import pkg_resources
 from discord.ext import commands
 from discord.utils import get
 
@@ -43,6 +44,12 @@ async def on_message(message):
     # Parses the message for a list of emails
     receiver_email = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', message.content)
     no_regression_result = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', "")
+
+
+    if message.content == "--version":
+        v2 = pkg_resources.get_distribution('my_package_name').version
+        await message.channel.send("The current version of Discord Auth is {}".format(v2))
+        return
 
 
     # The message received is a code
